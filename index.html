@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watchly — Movie Tracker</title>
+    <script src="app.js" defer></script>
 </head>
 <body>
     <h1>Watchly</h1>
@@ -18,7 +19,7 @@
     <button id="loginbtn">Login</button>
     <button id="registerbtn">Register</button>
     </div>
-    <!--  -->
+
     <div id="appsection" style="display:none;" >
         <h2>Search Movies</h2>
         <input type="text" id="searchmovies" name="searchmovies" placeholder="Search movie...">
@@ -26,6 +27,13 @@
         <div id="searchresults">
 
         </div>
+
+        <select name="moviestatus" id="moviestatus">
+            <option value="watched"> watched</option>
+            <option value="watching"> watching</option>
+            <option value="wishlist"> wishlist</option>
+    
+        </select>
         <h3>Watched</h3>
         <ul id="watchedlist"> </ul>
         <h3>Watching</h3>
