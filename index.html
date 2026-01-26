@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchly — Movie Tracker</title>
+</head>
+<body>
+    <h1>Watchly</h1>
+    <p>Your personal movie tracker & recommendation Site</p>
+
+
+    <div id="authsection">
+    <label for="email">Email id:</label>
+    <input type="text" id="email" name="email">
+    <label for="password">Password:</label>
+    <input type="text" id="password" name="password">
+    <button id="loginbtn">Login</button>
+    <button id="registerbtn">Register</button>
+    </div>
+    <!--  -->
+    <div id="appsection" style="display:none;" >
+        <h2>Search Movies</h2>
+        <input type="text" id="searchmovies" name="searchmovies" placeholder="Search movie...">
+        <button id="searchbtn">Search</button>
+        <div id="searchresults">
+
+        </div>
+        <h3>Watched</h3>
+        <ul id="watchedlist"> </ul>
+        <h3>Watching</h3>
+        <ul id="watchinglist"></ul>
+        <h3>Wishlist</h3>
+        <ul id="wishlistlist"></ul>
+        <h2>Recommendation</h2>
+        <div id="recommendation">
+        Watch some movies to get recommendations 🙂
+
+        </div>
+        <button id="logoutbtn">Logout</button>
+    </div>
+</body>
+</html>
