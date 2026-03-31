@@ -1,51 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watchly — Movie Tracker</title>
-    <script src="app.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Watchly — Movie Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Watchly</h1>
-    <p>Your personal movie tracker & recommendation Site</p>
 
-
-    <div id="authsection">
-    <label for="email">Email id:</label>
-    <input type="text" id="email" name="email">
-    <label for="password">Password:</label>
-    <input type="text" id="password" name="password">
-    <button id="loginbtn">Login</button>
-    <button id="registerbtn">Register</button>
+  <!-- ── AUTH SECTION ── -->
+  <div id="authsection">
+    <div class="auth-glow"></div>
+    <div class="auth-card">
+      <div class="logo">
+        <h1>Watchly</h1>
+        <p>Your personal movie tracker</p>
+      </div>
+      <div class="tab-switch">
+        <button id="tab-login" class="active" onclick="switchTab('login')">Login</button>
+        <button id="tab-register" onclick="switchTab('register')">Register</button>
+      </div>
+      <div id="auth-error" class="auth-error"></div>
+      <div class="field" id="name-field" style="display:none">
+        <label>Your Name</label>
+        <input type="text" id="nameInput" placeholder="e.g. Alex" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="emailInput" placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="passwordInput" placeholder="••••••••" />
+      </div>
+      <button class="btn-primary" id="authSubmitBtn">Login</button>
     </div>
+  </div>
 
-    <div id="appsection" style="display:none;" >
+  <!-- ── APP SECTION ── -->
+  <div id="appsection">
+    <header class="app-header">
+      <div class="logo">Watchly</div>
+      <div class="header-right">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">?</div>
+          <span class="user-name" id="userNameDisplay">User</span>
+        </div>
+        <button class="btn-logout" id="logoutbtn">Logout</button>
+      </div>
+    </header>
+
+    <div class="app-body">
+
+      <!-- Search -->
+      <div class="search-section">
         <h2>Search Movies</h2>
-        <input type="text" id="searchmovies" name="searchmovies" placeholder="Search movie...">
-        <button id="searchbtn">Search</button>
-        <div id="searchresults">
+        <div class="search-row">
+          <input type="text" id="searchmovies" placeholder="e.g. Inception, The Dark Knight…" />
+          <button class="btn-search" id="searchbtn">Search</button>
+        </div>
+        <div id="searchresults"></div>
+      </div>
 
+      <!-- Lists -->
+      <div class="lists-grid">
+
+        <!-- Watched -->
+        <div class="list-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="panel-dot dot-green"></span> Watched
+            </div>
+            <span class="panel-count" id="watched-count">0</span>
+          </div>
+          <div id="panel-empty-watched" class="panel-empty">No movies yet 🎬</div>
+          <ul class="panel-list" id="watchedlist"></ul>
         </div>
 
-        <select name="moviestatus" id="moviestatus">
-            <option value="watched"> watched</option>
-            <option value="watching"> watching</option>
-            <option value="wishlist"> wishlist</option>
-    
-        </select>
-        <h3>Watched</h3>
-        <ul id="watchedlist"> </ul>
-        <h3>Watching</h3>
-        <ul id="watchinglist"></ul>
-        <h3>Wishlist</h3>
-        <ul id="wishlistlist"></ul>
-        <h2>Recommendation</h2>
-        <div id="recommendation">
-        Watch some movies to get recommendations 🙂
-
+        <!-- Watching -->
+        <div class="list-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="panel-dot dot-blue"></span> Watching
+            </div>
+            <span class="panel-count" id="watching-count">0</span>
+          </div>
+          <div id="panel-empty-watching" class="panel-empty">Nothing in progress 📺</div>
+          <ul class="panel-list" id="watchinglist"></ul>
         </div>
-        <button id="logoutbtn">Logout</button>
+
+        <!-- Wishlist -->
+        <div class="list-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="panel-dot dot-gold"></span> Wishlist
+            </div>
+            <span class="panel-count" id="wishlist-count">0</span>
+          </div>
+          <div id="panel-empty-wishlist" class="panel-empty">Start adding movies ⭐</div>
+          <ul class="panel-list" id="wishlistlist"></ul>
+        </div>
+
+      </div>
     </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast"></div>
+
+  <script src="app.js"></script>
 </body>
 </html>
