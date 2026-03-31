@@ -23,6 +23,8 @@ registerbtn.addEventListener("click",function(){
         console.log("register clicked");
 
 })
+
+
 logoutbtn.addEventListener("click",function(){
      appsection.style.display = "none";
        authsection.style.display = "block";
