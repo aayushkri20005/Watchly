@@ -1,0 +1,21 @@
+/* ── RESET & ROOT ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1c1c28;
+  --border: #2a2a3a;
+  --gold: #e2b65a;
+  --gold-dim: #a07c30;
+  --text: #e8e8f0;
+  --muted: #7878a0;
+  --red: #e25a5a;
+  --green: #5ae2a0;
+  --blue: #5a9ee2;
+  --radius: 12px;
+}
