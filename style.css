@@ -93,3 +93,33 @@ body::before {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+
+/* ── TAB SWITCH ── */
+.tab-switch {
+  display: flex;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 28px;
+  gap: 4px;
+}
+
+.tab-switch button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-switch button.active {
+  background: var(--surface2);
+  color: var(--text);
+}
+
