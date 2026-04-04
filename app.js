@@ -23,3 +23,6 @@ function saveUserData(email, data) {
   all[email] = data;
   localStorage.setItem("watchly_data", JSON.stringify(all));
 }
+// ═══════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════
