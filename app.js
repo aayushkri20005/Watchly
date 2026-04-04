@@ -64,3 +64,37 @@ function switchTab(tab) {
   document.getElementById("name-field").style.display = tab === "register" ? "block" : "none";
   document.getElementById("authSubmitBtn").textContent = tab === "login" ? "Login" : "Create Account";
 }
+
+
+// 
+//  AUTH — LOGIN / REGISTER
+// 
+
+document.getElementById("authSubmitBtn").addEventListener("click", function () {
+  clearError();
+
+  const email    = document.getElementById("emailInput").value.trim();
+  const password = document.getElementById("passwordInput").value;
+  const name     = document.getElementById("nameInput").value.trim();
+
+  if (!email || !password) return showError("Please fill in all fields.");
+  if (currentTab === "register" && !name) return showError("Please enter your name.");
+
+  const users = getUsers();
+
+  if (currentTab === "login") {
+    if (!users[email])                        return showError("No account found with this email.");
+    if (users[email].password !== password)   return showError("Incorrect password.");
+    loginUser(email, users[email].name);
+  } else {
+    if (users[email]) return showError("An account with this email already exists.");
+    users[email] = { name, password };
+    saveUsers(users);
+    loginUser(email, name);
+  }
+});
+
+// Press Enter on password field to submit
+document.getElementById("passwordInput").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") document.getElementById("authSubmitBtn").click();
+});
