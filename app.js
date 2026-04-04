@@ -1,3 +1,9 @@
+// ── CONFIG ──
+//  http://www.omdbapi.com/apikey.aspx
+// Replace "trilogy" below with your own key for more daily requests
+const OMDB_KEY = "trilogy";
+
+
 // ── STATE ──
 let currentUser = null;
 
