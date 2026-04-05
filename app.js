@@ -125,3 +125,71 @@ function loginUser(email, name) {
   renderAllLists();
 }
 
+
+// 
+//  AUTH — LOGOUT
+// 
+
+document.getElementById("logoutbtn").addEventListener("click", function () {
+  currentUser = null;
+  localStorage.removeItem("watchly_session");
+
+  document.getElementById("appsection").style.display  = "none";
+  document.getElementById("authsection").style.display = "flex";
+  document.getElementById("searchresults").innerHTML   = "";
+
+  switchTab("login");
+});
+
+// 
+//  SESSION RESTORE (on page load)
+//
+
+window.addEventListener("load", function () {
+  const session = localStorage.getItem("watchly_session");
+  if (session) {
+    const u     = JSON.parse(session);
+    const users = getUsers();
+    if (users[u.email]) loginUser(u.email, u.name);
+  }
+});
+
+
+
+// 
+//  SEARCH
+// 
+
+document.getElementById("searchbtn").addEventListener("click", searchMovies);
+
+document.getElementById("searchmovies").addEventListener("keydown", function (e) {
+  if (e.key === "Enter") searchMovies();
+});
+
+async function searchMovies() {
+  const query     = document.getElementById("searchmovies").value.trim();
+  const container = document.getElementById("searchresults");
+
+  if (!query) return;
+
+  container.innerHTML = `<div class="loading-dots"><span></span><span></span><span></span></div>`;
+
+  try {
+    const res  = await fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(query)}&type=movie&apikey=${OMDB_KEY}`);
+    const data = await res.json();
+
+    if (data.Response === "False") {
+      container.innerHTML = `<p class="search-info">No movies found for "<strong>${query}</strong>"</p>`;
+      return;
+    }
+
+    container.innerHTML = "";
+    data.Search.forEach((movie, i) => {
+      const card = buildMovieCard(movie);
+      card.style.animationDelay = `${i * 0.05}s`;
+      container.appendChild(card);
+    });
+  } catch (err) {
+    container.innerHTML = `<p class="search-info">Could not fetch results. Check your internet connection.</p>`;
+  }
+}
