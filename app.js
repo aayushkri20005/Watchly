@@ -193,3 +193,108 @@ async function searchMovies() {
     container.innerHTML = `<p class="search-info">Could not fetch results. Check your internet connection.</p>`;
   }
 }
+
+// 
+//  MOVIE CARD
+// 
+
+function buildMovieCard(movie) {
+  const userData  = getUserData(currentUser.email);
+  const inWatched  = userData.watched.some(m  => m.imdbID === movie.imdbID);
+  const inWatching = userData.watching.some(m => m.imdbID === movie.imdbID);
+  const inWishlist = userData.wishlist.some(m => m.imdbID === movie.imdbID);
+
+  const card = document.createElement("div");
+  card.className   = "movie-card fade-in";
+  card.dataset.id  = movie.imdbID;
+
+  const fallbackPoster = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 300'%3E%3Crect width='200' height='300' fill='%231c1c28'/%3E%3Ctext x='100' y='155' text-anchor='middle' fill='%237878a0' font-size='40'%3E🎬%3C/text%3E%3C/svg%3E";
+  const poster = movie.Poster !== "N/A" ? movie.Poster : fallbackPoster;
+
+  card.innerHTML = `
+    <img src="${poster}" alt="${movie.Title}" loading="lazy" />
+    <div class="card-body">
+      <div class="card-title">${movie.Title}</div>
+      <div class="card-year">${movie.Year}</div>
+      <div class="card-actions">
+        <button class="add-btn watched ${inWatched ? 'added-watched' : ''}" data-list="watched">
+          ${inWatched ? '✓ Watched' : '+ Watched'}
+        </button>
+        <button class="add-btn watching ${inWatching ? 'added-watching' : ''}" data-list="watching">
+          ${inWatching ? '✓ Watching' : '+ Watching'}
+        </button>
+        <button class="add-btn wishlist ${inWishlist ? 'added-wishlist' : ''}" data-list="wishlist">
+          ${inWishlist ? '✓ Wishlist' : '+ Wishlist'}
+        </button>
+      </div>
+    </div>`;
+
+  card.querySelectorAll(".add-btn").forEach(btn => {
+    btn.addEventListener("click", function () {
+      addToList(movie, this.dataset.list);
+      refreshCardButtons(movie.imdbID);
+    });
+  });
+
+  return card;
+}
+
+// Refresh the button states on a card after adding/removing
+function refreshCardButtons(imdbID) {
+  const card = document.querySelector(`.movie-card[data-id="${imdbID}"]`);
+  if (!card) return;
+
+  const userData   = getUserData(currentUser.email);
+  const inWatched  = userData.watched.some(m  => m.imdbID === imdbID);
+  const inWatching = userData.watching.some(m => m.imdbID === imdbID);
+  const inWishlist = userData.wishlist.some(m => m.imdbID === imdbID);
+
+  const btns = card.querySelectorAll(".add-btn");
+  btns[0].className   = `add-btn watched ${inWatched ? 'added-watched' : ''}`;
+  btns[0].textContent = inWatched ? '✓ Watched' : '+ Watched';
+  btns[1].className   = `add-btn watching ${inWatching ? 'added-watching' : ''}`;
+  btns[1].textContent = inWatching ? '✓ Watching' : '+ Watching';
+  btns[2].className   = `add-btn wishlist ${inWishlist ? 'added-wishlist' : ''}`;
+  btns[2].textContent = inWishlist ? '✓ Wishlist' : '+ Wishlist';
+}
+
+
+
+// 
+//  LIST MANAGEMENT
+// 
+
+function addToList(movie, list) {
+  const data      = getUserData(currentUser.email);
+  const alreadyIn = data[list].some(m => m.imdbID === movie.imdbID);
+
+  if (alreadyIn) {
+    // Toggle off — remove from this list
+    data[list] = data[list].filter(m => m.imdbID !== movie.imdbID);
+    showToast(`Removed "${movie.Title}" from ${list}`);
+  } else {
+    // Remove from other lists first (a movie lives in only one list at a time)
+    ["watched", "watching", "wishlist"].forEach(l => {
+      if (l !== list) data[l] = data[l].filter(m => m.imdbID !== movie.imdbID);
+    });
+    data[list].push({
+      imdbID: movie.imdbID,
+      Title:  movie.Title,
+      Year:   movie.Year,
+      Poster: movie.Poster,
+    });
+    showToast(`Added "${movie.Title}" to ${list}!`);
+  }
+
+  saveUserData(currentUser.email, data);
+  renderAllLists();
+}
+
+function removeFromList(imdbID, list) {
+  const data  = getUserData(currentUser.email);
+  data[list]  = data[list].filter(m => m.imdbID !== imdbID);
+  saveUserData(currentUser.email, data);
+  renderAllLists();
+  refreshCardButtons(imdbID);
+  showToast("Removed from list");
+}
