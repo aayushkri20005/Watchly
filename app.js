@@ -98,3 +98,30 @@ document.getElementById("authSubmitBtn").addEventListener("click", function () {
 document.getElementById("passwordInput").addEventListener("keydown", function (e) {
   if (e.key === "Enter") document.getElementById("authSubmitBtn").click();
 });
+
+
+
+// 
+//  AUTH — LOGIN USER
+// 
+
+function loginUser(email, name) {
+  currentUser = { email, name };
+  localStorage.setItem("watchly_session", JSON.stringify(currentUser));
+
+  // Switch views
+  document.getElementById("authsection").style.display = "none";
+  document.getElementById("appsection").style.display  = "block";
+
+  // Update header
+  document.getElementById("userNameDisplay").textContent = name;
+  document.getElementById("userAvatar").textContent      = name.charAt(0).toUpperCase();
+
+  // Clear form fields
+  document.getElementById("emailInput").value    = "";
+  document.getElementById("passwordInput").value = "";
+  document.getElementById("nameInput").value     = "";
+
+  renderAllLists();
+}
+
