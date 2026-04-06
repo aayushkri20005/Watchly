@@ -325,3 +325,25 @@ function renderList(list) {
     empty.style.display = "block";
     return;
   }
+
+  empty.style.display = "none";
+
+  const fallbackPoster = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 54'%3E%3Crect width='36' height='54' fill='%231c1c28'/%3E%3C/svg%3E";
+
+  movies.forEach(movie => {
+    const poster = movie.Poster !== "N/A" ? movie.Poster : fallbackPoster;
+
+    const li = document.createElement("li");
+    li.className  = "list-item";
+    li.innerHTML  = `
+      <img src="${poster}" alt="${movie.Title}" />
+      <div class="item-info">
+        <div class="item-title">${movie.Title}</div>
+        <div class="item-year">${movie.Year}</div>
+      </div>
+      <button class="item-remove" title="Remove">✕</button>`;
+
+    li.querySelector(".item-remove").addEventListener("click", () => removeFromList(movie.imdbID, list));
+    ul.appendChild(li);
+  });
+}
