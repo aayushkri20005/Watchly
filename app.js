@@ -347,3 +347,8 @@ function renderList(list) {
     ul.appendChild(li);
   });
 }
+
+
+//
+// FULLY COMPLETED VERSION V.01
+//

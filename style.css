@@ -548,10 +548,6 @@ body::before {
   flex-shrink: 0;
 }
 
-.list-item:hover .item-remove {
-  opacity: 1;
-}
-
 .item-remove:hover {
   color: var(--red);
   background: rgba(226,90,90,0.1);
