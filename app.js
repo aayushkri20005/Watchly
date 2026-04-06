@@ -298,3 +298,30 @@ function removeFromList(imdbID, list) {
   refreshCardButtons(imdbID);
   showToast("Removed from list");
 }
+
+
+
+// 
+//  RENDER LISTS
+//
+
+function renderAllLists() {
+  renderList("watched");
+  renderList("watching");
+  renderList("wishlist");
+}
+
+function renderList(list) {
+  const data   = getUserData(currentUser.email);
+  const movies = data[list];
+  const ul     = document.getElementById(`${list}list`);
+  const empty  = document.getElementById(`panel-empty-${list}`);
+  const count  = document.getElementById(`${list}-count`);
+
+  count.textContent = movies.length;
+  ul.innerHTML      = "";
+
+  if (movies.length === 0) {
+    empty.style.display = "block";
+    return;
+  }
